@@ -54,7 +54,7 @@ class MicroTest(StaticLiveServerTestCase):
 		self.assertIn('Branch Name:', body.text)
 		self.assertIn('Branch Address:', body.text)
 
-		#She types a branch Name
+		#She types a branch Name and its address
 		branch_name_field = self.browser.find_element_by_name('branchName')
 		branch_name_field.send_keys("Cebuana Pasig")
 		branch_address_field = self.browser.find_element_by_name('branchAddress')
@@ -65,9 +65,61 @@ class MicroTest(StaticLiveServerTestCase):
 		save_button.click()
 
 		#She is returned to the "Branch" listing, where she can see her
-		#new branch, listed as a clickable link
+		#new saved branch, listed as a clickable link
 		saved_branch_link = self.browser.find_elements_by_link_text("Cebuana Pasig")
 		self.assertEquals(len(saved_branch_link), 1)
 
+		#She goes back to the home page to add a new under writers
+		home_link = self.browser.find_elements_by_link_text("Home")
+		self.assertEquals(len(home_link), 1)
+
+		#She clicks the link of home page
+		home_link[0].click()
+
+		#she is taken to the Site Administration page again
+		body = self.browser.find_element_by_tag_name('body')
+		self.assertIn('Site administration', body.text)		
+		self.browser.implicitly_wait(10)
+
+		#She now sees a hyperlink that says "Under writers"
+		under_writers_link = self.browser.find_elements_by_link_text('Under writers')
+		self.assertEquals(len(under_writers_link), 1)
+
+		#she clicks the hyperlink
+		under_writers_link[0].click()
+
+		#She is taken to the under writers listing page, which shows she has
+		#no under writers yet
+		body = self.browser.find_element_by_tag_name('body')
+		self.assertIn('0 under writers', body.text)
+
+		#She sees a link to 'add under writer' , so she clicks it
+		new_underWriter_link = self.browser.find_element_by_link_text('Add under writer')
+		new_underWriter_link.click()
+
+		#She sees some input fields for "Under Writer Name" and "Under Writer Address"
+		body = self.browser.find_element_by_tag_name('body')
+		self.assertIn('Under Writer Name:', body.text)
+		self.assertIn('Under Writer Address:', body.text)
+		self.assertIn('Under Writer Contact No:', body.text)
+
+		#She types a under writer Name a its address
+		new_underWriter_name_field = self.browser.find_element_by_name('underWriterName')
+		new_underWriter_name_field.send_keys("Sun Life")
+		new_underWriter_address_field = self.browser.find_element_by_name('underWriterAddress')
+		new_underWriter_address_field.send_keys("Marikina City")
+		new_underWriter_contact_field = self.browser.find_element_by_name('underWriterContact')
+		new_underWriter_contact_field.send_keys("+639282980493")
+
+		#Kristine clicks the save button
+		save_button = self.browser.find_element_by_css_selector("input[value='Save']")
+		save_button.click()
+
+		#She is returned to the "Under writer" listing, where she can see her
+		#new saved under writer, listed as a clickable link
+		saved_underWriter_link = self.browser.find_elements_by_link_text("Sun Life")
+		self.assertEquals(len(saved_underWriter_link), 1)
+		self.browser.implicitly_wait(10)
+
 		#TODO: use the admin site to create maintenance of the platform
-		self.fail('Finish the Test') 
+		#self.fail('Finish the Test') 

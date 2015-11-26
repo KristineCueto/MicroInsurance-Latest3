@@ -17,3 +17,20 @@ class Branch(models.Model):
 
 	class Meta:
 		verbose_name_plural = "Branches"
+
+class UnderWriter(models.Model):
+	underWriterName = models.CharField(default='', max_length=100, verbose_name='Under Writer Name')
+	underWriterAddress = models.TextField(default='', max_length=200, verbose_name='Under Writer Address')
+	underWriterContact = models.CharField(default='', max_length=13, verbose_name='Under Writer Contact No')
+	def test_verbose_name_for_underWriterName_and_underWriterAddress(self):
+		for field in UnderWriter._meta.fields:
+			if field.name == 'underWriterName':
+				self.assertEquals(field.verbose_name, 'Under Writer Name')
+			if field.name == 'underWriterAddress':
+				self.assertEquals(field.verbose_name, 'Under Writer Address')
+			if field.name == 'underWriterContact':
+				self.assertEquals(field.verbose_name, 'Under Writer Contact No')
+
+	def __str__(self):
+		return self.underWriterName
+
