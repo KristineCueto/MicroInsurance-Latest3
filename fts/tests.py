@@ -121,5 +121,124 @@ class MicroTest(StaticLiveServerTestCase):
 		self.assertEquals(len(saved_underWriter_link), 1)
 		self.browser.implicitly_wait(10)
 
+		#She adds new underwriter
+		add_underWriter_link = self.browser.find_element_by_link_text('Add under writer')
+		add_underWriter_link.click()
+
+		#She sees some input fields for "Under Writer Name" and "Under Writer Address"
+		body = self.browser.find_element_by_tag_name('body')
+		self.assertIn('Under Writer Name:', body.text)
+		self.assertIn('Under Writer Address:', body.text)
+		self.assertIn('Under Writer Contact No:', body.text)
+
+		#She types a under writer Name a its address
+		add_underWriter_name_field = self.browser.find_element_by_name('underWriterName')
+		add_underWriter_name_field.send_keys("Pro Life")
+		add_underWriter_address_field = self.browser.find_element_by_name('underWriterAddress')
+		add_underWriter_address_field.send_keys("Taguig City")
+		add_underWriter_contact_field = self.browser.find_element_by_name('underWriterContact')
+		add_underWriter_contact_field.send_keys("09282980493")
+
+		#Kristine clicks the save button
+		save_button = self.browser.find_element_by_css_selector("input[value='Save']")
+		save_button.click()
+
+		#She is returned to the "Under writer" listing, where she can see her
+		#new saved under writer, listed as a clickable link
+		saved_underWriter_link = self.browser.find_elements_by_link_text("Pro Life")
+		self.assertEquals(len(saved_underWriter_link), 1)
+		self.browser.implicitly_wait(10)
+
+
+		#Kristine goes back to the home page to add now a new insurance
+		home_link = self.browser.find_elements_by_link_text("Home")
+		self.assertEquals(len(home_link), 1)
+
+		#She clicks the link of home page
+		home_link[0].click()
+
+		#she is taken to the Site Administration page again
+		body = self.browser.find_element_by_tag_name('body')
+		self.assertIn('Site administration', body.text)		
+		self.browser.implicitly_wait(10)
+
+		#She now sees a hyperlink that says "Insurances"
+		insurances_link = self.browser.find_elements_by_link_text('Insurances')
+		self.assertEquals(len(insurances_link), 1)
+
+		#she clicks the hyperlink
+		insurances_link[0].click()
+
+		#She is taken to the insurances listing page, which shows she has
+		#no insurances yet
+		body = self.browser.find_element_by_tag_name('body')
+		self.assertIn('0 insurances', body.text)
+
+		#She sees a link to 'add insurance' , so she clicks it
+		new_insurance_link = self.browser.find_element_by_link_text('Add insurance')
+		new_insurance_link.click()
+
+		#She sees some input fields for attributes in adding insurance
+		body = self.browser.find_element_by_tag_name('body')
+		self.assertIn('Insurance Name:', body.text)
+		self.assertIn('Insurance Based Price:', body.text)
+		self.assertIn('Insurance Selling Price:', body.text)
+		self.assertIn('Insurance Validity Days:', body.text)
+		self.assertIn('Insurance Effectivity Date:', body.text)
+		self.assertIn('Insurance Age From:', body.text)
+		self.assertIn('Insurance Age To:', body.text)
+		self.assertIn('Insurance Limit Per Person:', body.text)
+		self.assertIn('Under Writer Name:', body.text)
+
+		#She types the information needed for the insurance to be added
+		new_insurance_name_field = self.browser.find_element_by_name('SKU_Name')
+		new_insurance_name_field.send_keys("Death Insurance")
+
+		new_insurance_BasedPrice_field = self.browser.find_element_by_name('SKU_BasedPrice')
+		new_insurance_BasedPrice_field.send_keys(100.00)
+
+		new_insurance_SellingPrice_field = self.browser.find_element_by_name('SKU_SellingPrice')
+		new_insurance_SellingPrice_field.send_keys(120.00)
+
+		new_insurance_ValidDays_field = self.browser.find_element_by_name('SKU_ValidityDays')
+		new_insurance_ValidDays_field.send_keys(30)
+
+		new_insurance_EffectDate0_field = self.browser.find_element_by_name('SKU_EffectDate_0')
+		new_insurance_EffectDate0_field.send_keys(Keys.CONTROL + "a")
+		new_insurance_EffectDate0_field.send_keys(Keys.DELETE)
+		new_insurance_EffectDate0_field.send_keys("2015-11-28")
+
+		new_insurance_EffectDate1_field = self.browser.find_element_by_name('SKU_EffectDate_1')
+		new_insurance_EffectDate1_field.send_keys(Keys.CONTROL + "a")
+		new_insurance_EffectDate1_field.send_keys(Keys.DELETE)
+		new_insurance_EffectDate1_field.send_keys("12:00")
+
+		new_insurance_AgeFrom_field = self.browser.find_element_by_name('SKU_AgeFrom')
+		new_insurance_AgeFrom_field.send_keys(Keys.CONTROL + "a")
+		new_insurance_AgeFrom_field.send_keys(Keys.DELETE)
+		new_insurance_AgeFrom_field.send_keys(20)
+
+		new_insurance_AgeTo_field = self.browser.find_element_by_name('SKU_AgeTo')
+		new_insurance_AgeTo_field.send_keys(Keys.CONTROL + "a")
+		new_insurance_AgeTo_field.send_keys(Keys.DELETE)
+		new_insurance_AgeTo_field.send_keys(60)
+
+		new_insurance_LimitPerPerson_field = self.browser.find_element_by_name('SKU_LimitPerPerson')
+		new_insurance_LimitPerPerson_field.send_keys(Keys.CONTROL + "a")
+		new_insurance_LimitPerPerson_field.send_keys(Keys.DELETE)
+		new_insurance_LimitPerPerson_field.send_keys(3)
+
+		new_insurance_UnderwriterName_field = self.browser.find_element_by_name('SKU_underWriter')
+		new_insurance_UnderwriterName_field.send_keys("Pro Life")
+		
+		#Kristine clicks the save button
+		save_button = self.browser.find_element_by_css_selector("input[value='Save']")
+		save_button.click()
+
+		#She is returned to the "Insurances" listing, where she can see her
+		#new saved insurance, listed as a clickable link
+		saved_insurance_link = self.browser.find_elements_by_link_text("Death Insurance")
+		self.assertEquals(len(saved_insurance_link), 1)
+		self.browser.implicitly_wait(10)
 		#TODO: use the admin site to create maintenance of the platform
 		#self.fail('Finish the Test') 
